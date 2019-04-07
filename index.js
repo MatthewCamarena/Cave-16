@@ -1,8 +1,8 @@
 
 function startPath(){
 
-		var u = [document.getElementById("sxPoint").value, document.getElementById("syPoint").value, document.getElementById("szPoint").value];
-		var d = [document.getElementById("txPoint").value, document.getElementById("tyPoint").value, document.getElementById("tzPoint").value];
+		var u = [Number(document.getElementById("sxPoint").value), Number(document.getElementById("syPoint").value), Number(document.getElementById("szPoint").value)];
+		var d = [Number(document.getElementById("txPoint").value), document.getElementById("tyPoint").value, document.getElementById("tzPoint").value];
 		var max = [document.getElementById("mxPoint").value, document.getElementById("myPoint").value, document.getElementById("mzPoint").value];
 		start(u,d,max);
 }
@@ -225,10 +225,12 @@ for(var i = 1; i < positions.length; i++)
 {
 for(var j = 0; j < i; j++)
 {
+
 temp+= "&nbsp";
 }
 temp+=("["+positions[i] + "]" + "<br>");
 }
+
 document.getElementById("display").innerHTML = temp;
 }
 
