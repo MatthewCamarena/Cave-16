@@ -2,8 +2,8 @@
 function startPath(){
 
 		var u = [Number(document.getElementById("sxPoint").value), Number(document.getElementById("syPoint").value), Number(document.getElementById("szPoint").value)];
-		var d = [Number(document.getElementById("txPoint").value), document.getElementById("tyPoint").value, document.getElementById("tzPoint").value];
-		var max = [document.getElementById("mxPoint").value, document.getElementById("myPoint").value, document.getElementById("mzPoint").value];
+		var d = [Number(document.getElementById("txPoint").value), Number(document.getElementById("tyPoint").value), Number(document.getElementById("tzPoint").value)];
+		var max = [Number(document.getElementById("mxPoint").value), Number(document.getElementById("myPoint").value), Number(document.getElementById("mzPoint").value)];
 		start(u,d,max);
 }
 
@@ -233,3 +233,6 @@ temp+=("["+positions[i] + "]" + "<br>");
 
 document.getElementById("display").innerHTML = temp;
 }
+
+
+
