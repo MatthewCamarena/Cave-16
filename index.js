@@ -233,6 +233,3 @@ temp+=("["+positions[i] + "]" + "<br>");
 
 document.getElementById("display").innerHTML = temp;
 }
-
-
-
