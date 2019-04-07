@@ -1,123 +1,166 @@
 
 function startPath(){
 
-
+		var u = [document.getElementById("sxPoint").value, document.getElementById("syPoint").value, document.getElementById("szPoint").value];
+		var d = [document.getElementById("txPoint").value, document.getElementById("tyPoint").value, document.getElementById("tzPoint").value];
+		var max = [document.getElementById("mxPoint").value, document.getElementById("myPoint").value, document.getElementById("mzPoint").value];
+		start(u,d,max);
 }
 
 function startDefaultPath(){
-//starting points
-var x = 16;
-var y = 0;
-var z = 0;
-var u = [x,y,z];
+	//starting points
+	var x = 16;
+	var y = 0;
+	var z = 0;
+	var u = [x,y,z];
 
-//destination points
-var d = [8,1,7];
+	//destination points
+	var d = [8,1,7];
 
-// Limits
-var max = [16, 9,7];
+	// Limits
+	var max = [16, 9,7];
 
-//list of coords
-var positions = [];
-positions.push(u);
+	start(u, d, max);
 
-var s = ["", "",""];
-s[0] = u[0];
-s[1] = u[1];
-s[2] = u[2];
-
-for(var i = 0; i < 6; i++) //run through states
-{
-//initialize new coordinate given last position
-var t = ["", "",""]; 
-t[0] = s[0];
-t[1] = s[1];
-t[2] = s[2];
-
-//get the next point
-t = getNextPoint(t, max, i);
-
-//check position already visited if not add to visited
-if(checkNotDuplicate(t, positions)){
-positions.push(t);
-//saving position
-s[0] = t[0];
-s[1] = t[1];
-s[2] = t[2];
-i = -1;
 }
 
-//If we've reached our target break out of the loop
-if(targetReached(t, d)){
-	break;
-}
+function start(u, d, max) {//startingPoint, destination, maximums
+	//list of coords
+	var treached = false;
+	var positions = [];
+	var visited = [];
+	positions.push(u);
+	visited.push(u);
 
-}//end for
+	var s = ["", "",""];
+	s[0] = u[0];
+	s[1] = u[1];
+	s[2] = u[2];
 
-printRoute(positions);
-//console.log(positions);
+	for(var i = 0; i < 6; i++) //run through states
+	{
+
+	//initialize new coordinate given last position
+	var t = ["", "",""]; 
+	t[0] = s[0];
+	t[1] = s[1];
+	t[2] = s[2];
+	console.log(t);
+	//get the next point
+	t = getNextPoint(t, max, i);
+
+	//check position already visited if not add to visited
+	if(checkNotDuplicate(t, visited)) {
+	positions.push(t);
+	visited.push(t);
+	//saving position
+	s[0] = t[0];
+	s[1] = t[1];
+	s[2] = t[2];
+	i = -1;
+	}
+
+	//If we've reached our target break out of the loop
+	if(targetReached(t, d)){
+		treached = true;
+		break;
+	}
+
+	if(i === 5)
+	{
+		if(positions.length > 0 )
+		{
+			visited.push(positions[positions.length -1]);
+			positions.pop();
+			if(positions.length > 0)
+			{
+			var fa = [];
+		    fa = positions[positions.length-1];
+		    s[0] = fa[0];
+			s[1] = fa[1];
+			s[2] = fa[2];
+
+			console.log("POPPIN" + fa[0]);
+			}
+			i = -1
+		}
+	}
+
+	}//end for
+
+
+
+
+	if(treached == false)
+	{
+		visited.push("NO PATH FOUND");
+	}
+
+
+	printRoute(visited);
+	//console.log(positions);
 
 }
 
 
 function getNextPoint(position, max, state){
 
-//POSITIONS
-var pos1;
-var pos2;
+	//POSITIONS
+	var pos1;
+	var pos2;
 
-//STATES
-//A->B
-if(state == 0)
-{
-console.log("A->B");
-pos1 = 0; pos2 = 1;
-}
-//A->C
-if(state == 1) 
-{
-console.log("A->C");
-pos1 = 0; pos2 = 2;
-}
-//B->C
-if(state == 2)
-{
-console.log("B->C");
-pos1 = 1; pos2 = 2;
-}
-//C->A
-if(state == 3)
-{
-console.log("C->A");
-pos1 = 2; pos2 = 0;
-}
-//C->B
-if(state == 4)
-{
-console.log("C->B");
-pos1 = 2; pos2 = 1;
-}
-//B->A
-if(state == 5)
-{
-pos1 = 1; pos2 = 0;
-}
+	//STATES
+	//A->B
+	if(state == 0)
+	{
+	console.log("A->B");
+	pos1 = 0; pos2 = 1;
+	}
+	//A->C
+	if(state == 1) 
+	{
+	console.log("A->C");
+	pos1 = 0; pos2 = 2;
+	}
+	//B->C
+	if(state == 2)
+	{
+	console.log("B->C");
+	pos1 = 1; pos2 = 2;
+	}
+	//C->A
+	if(state == 3)
+	{
+	console.log("C->A");
+	pos1 = 2; pos2 = 0;
+	}
+	//C->B
+	if(state == 4)
+	{
+	console.log("C->B");
+	pos1 = 2; pos2 = 1;
+	}
+	//B->A
+	if(state == 5)
+	{
+	pos1 = 1; pos2 = 0;
+	}
 
-//RUN CHANGE
-if(position[pos1] == 0) // if position 1 has nothing to move return
-{
-	return position;
-}
+	//RUN CHANGE
+	if(position[pos1] == 0) // if position 1 has nothing to move return
+	{
+		return position;
+	}
 
-else if (position[pos2] == max[pos2]) //if pos2 is full return
-{
- 	return position;
-}
+	else if (position[pos2] == max[pos2]) //if pos2 is full return
+	{
+	 	return position;
+	}
 
-else //fill pos2 as much as possible from pos1
-{
-	return position = fill(position, pos1, pos2, max);
-}
+	else //fill pos2 as much as possible from pos1
+	{
+		return position = fill(position, pos1, pos2, max);
+	}
 
 
 }// end function getNext
@@ -170,6 +213,9 @@ function targetReached(position, target){
 	}
 	return false;
 } 	//End target Reached
+
+
+
 
 function printRoute(positions)
 {
